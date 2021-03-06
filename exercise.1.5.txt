@@ -1,0 +1,38 @@
+Ben Bitdiddle has invented a test to determine whether the interpreter he is faced with is using applicative-order evaluation or normal-order evaluation. He defines the following two procedures:
+
+(define (p) (p))
+
+(define (test x y)
+  (if (= x 0)
+      0
+      y))
+Then he evaluates the expression
+
+(test 0 (p))
+What behavior will Ben observe with an interpreter that uses applicative-order evaluation? What behavior will he observe with an interpreter that uses normal-order evaluation? Explain your answer. (Assume that the evaluation rule for the special form if is the same whether the interpreter is using normal or applicative order: The predicate expression is evaluated first, and the result determines whether to evaluate the consequent or the alternative expression.)
+
+
+Answer:
+
+In applicative-order evaluation (p) will always evaluates to (p) which makes an infinite loop
+
+
+When the interpreter try to evaluate the expression (p), it will:
+
+replace each formal parameters by the corresponding argument in the body of the procedure: since there is no formal parameter in this case, the body of the procedure will just be (p).
+evaluated the body of the procedure, which will be (p) in our case, which in turn starts the evaluation all over again, thus making an infinite loop.
+
+With an interpreter that uses normal-order evaluation, the interpreter will "fully expand and than reduce." In this model, the interpreter will not evaluate the operands until their values are actually needed.
+In that case (test 0 (p)) will evaluate as follows:
+
+(test 0 (p))
+will be expanded to:
+
+(if (= 0 0)
+    0
+    (p))
+Since the predicate (= 0 0) evaluates to #t in the if, then (p) will not be evaluated and the result will be:
+
+0
+
+** Não entendi ainda como surge o segundo zero ali, (p) resulta em zero????****
